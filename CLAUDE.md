@@ -13,7 +13,8 @@ Site pessoal com portfólio de projetos web e software, com visual de terminal. 
 ## Estrutura
 
 - `app/` rotas (cada pasta vira uma rota). Layout raiz em `app/layout.tsx`.
-- `components/` componentes reutilizáveis (`Header.tsx`, `Terminal.tsx`).
+- `components/` componentes reutilizáveis (`Header.tsx`, `Terminal.tsx`, `ProjectFilter.tsx`, `ContactForm.tsx`).
+- `app/contato/actions.ts` Server Action do formulário; envia pelo Resend via `fetch` e lê `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` (modelo em `.env.example`).
 - `data/projects.ts` tipo `Project` e lista de projetos.
 - `public/` imagens estáticas (prints dos projetos vão em `public/projetos/`).
 
@@ -51,9 +52,8 @@ Navegação e títulos usam a metáfora de terminal (`~/projetos`, `$ cat arquiv
 
 ## Próximos passos
 
-1. Página de detalhe do projeto: `app/projetos/[slug]/page.tsx` (estudo de caso: problema, solução, stack, prints, links)
-2. Listagem com filtro web/software: `app/projetos/page.tsx`
-3. Página Sobre: `app/sobre/page.tsx`
-4. Contato com formulário (Server Action + Resend): `app/contato/page.tsx`
-5. SEO e Open Graph
-6. Deploy na Vercel
+Já feitos: `/projetos` (com filtro), `/sobre` e `/contato`.
+
+1. Página de detalhe do projeto: `app/projetos/[slug]/page.tsx` (estudo de caso: problema, solução, stack, prints, links). Os links da home e do `ls` do terminal já apontam para ela.
+2. SEO e Open Graph
+3. Deploy na Vercel (configurar as variáveis do Resend)

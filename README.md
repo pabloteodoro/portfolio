@@ -19,6 +19,8 @@ npm run dev
 
 Abra `http://localhost:3000`.
 
+Para o formulário de contato enviar e-mails, copie `.env.example` para `.env.local` e preencha as variáveis (veja a parte 9). Sem elas o site funciona normalmente, mas o formulário avisa que o envio está indisponível.
+
 | Comando         | O que faz                        |
 | --------------- | -------------------------------- |
 | `npm run dev`   | Servidor de desenvolvimento      |
@@ -33,6 +35,9 @@ Abra `http://localhost:3000`.
 ```
 portfolio/
 ├── app/
+│   ├── contato/
+│   │   ├── actions.ts   # Server Action que valida e envia a mensagem
+│   │   └── page.tsx     # Redes sociais e formulário de contato
 │   ├── globals.css      # Tema: cores, fonte e estilos globais
 │   ├── layout.tsx       # Layout raiz: fonte, metadados e menu
 │   ├── page.tsx         # Página inicial (terminal + destaques)
@@ -41,6 +46,7 @@ portfolio/
 │   └── sobre/
 │       └── page.tsx     # Apresentação, formação e habilidades
 ├── components/
+│   ├── ContactForm.tsx  # Formulário de contato (useActionState)
 │   ├── Header.tsx       # Menu de navegação em formato de caminho
 │   ├── ProjectFilter.tsx # Filtro web/software e lista de projetos
 │   └── Terminal.tsx     # Terminal interativo da home
@@ -140,6 +146,21 @@ Mostra todos os projetos de `data/projects.ts`, com filtro por tipo. A página �
 
 Server Component estático dividido em "arquivos" de terminal: `cat sobre-mim.txt` (apresentação), `cat formacao.txt` (faculdade, certificação AWS e idiomas) e `ls habilidades/` (tecnologias por área). Cada seção usa `aria-labelledby` apontando para o próprio título. Para atualizar as habilidades, edite o array `skills` no topo do arquivo.
 
+### 9. Contato (`app/contato/page.tsx`)
+
+Mostra os links do GitHub e do LinkedIn e um formulário com nome, e-mail e mensagem.
+
+- `components/ContactForm.tsx` é Client Component e usa `useActionState` do React para chamar a Server Action, mostrar o estado de envio e exibir erros por campo (`aria-invalid` e `aria-describedby`). Se der erro, o que a pessoa digitou é mantido.
+- `app/contato/actions.ts` roda só no servidor: valida os campos, descarta envios de robôs (campo invisível `website`) e envia o e-mail pela API REST do [Resend](https://resend.com), sem dependência extra. O e-mail chega com `reply_to` apontando para o visitante, então basta responder.
+
+Variáveis de ambiente (em `.env.local` localmente e nas configurações do projeto na Vercel):
+
+| Variável             | Obrigatória | Para que serve                                                |
+| -------------------- | ----------- | ------------------------------------------------------------- |
+| `RESEND_API_KEY`     | sim         | Chave da API do Resend                                        |
+| `CONTACT_TO_EMAIL`   | sim         | E-mail que recebe as mensagens                                |
+| `CONTACT_FROM_EMAIL` | não         | Remetente; precisa ser de um domínio verificado no Resend. Padrão: `onboarding@resend.dev` (só entrega para o e-mail da sua conta Resend) |
+
 ---
 
 ## Próximos passos
@@ -147,6 +168,6 @@ Server Component estático dividido em "arquivos" de terminal: `cat sobre-mim.tx
 - [ ] Página de detalhe do projeto (`/projetos/[slug]`)
 - [x] Página de listagem com filtro web/software (`/projetos`)
 - [x] Página Sobre (`/sobre`)
-- [ ] Página de contato com formulário (`/contato`)
+- [x] Página de contato com formulário (`/contato`)
 - [ ] SEO e imagem de compartilhamento (Open Graph)
 - [ ] Deploy na Vercel
