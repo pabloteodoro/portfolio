@@ -1,27 +1,31 @@
 "use client";
 
 import { useActionState } from "react";
-import { sendContact, type ContactField, type ContactState } from "@/app/contato/actions";
+import { sendContact, type ContactField, type ContactState } from "@/app/[lang]/contato/actions";
+import type { Dictionary } from "@/dictionaries";
+import type { Locale } from "@/lib/i18n";
 
 const initialState: ContactState = { status: "idle", message: "" };
-
-const fields: { name: ContactField; label: string; type: string; autoComplete: string }[] = [
-  { name: "name", label: "nome", type: "text", autoComplete: "name" },
-  { name: "email", label: "email", type: "email", autoComplete: "email" },
-];
 
 const inputClass =
   "w-full border border-line bg-ink px-3 py-2 text-text outline-none transition-colors focus:border-amber aria-[invalid=true]:border-red";
 
-export default function ContactForm() {
-  const [state, formAction, pending] = useActionState(sendContact, initialState);
+type Props = { lang: Locale; t: Dictionary["contact"]["form"] };
+
+export default function ContactForm({ lang, t }: Props) {
+  const [state, formAction, pending] = useActionState(sendContact.bind(null, lang), initialState);
+
+  const fields: { name: ContactField; label: string; type: string; autoComplete: string }[] = [
+    { name: "name", label: t.name, type: "text", autoComplete: "name" },
+    { name: "email", label: t.email, type: "email", autoComplete: "email" },
+  ];
 
   return (
     <form action={formAction} noValidate className="space-y-5">
       {fields.map((f) => (
         <div key={f.name} className="space-y-1">
           <label htmlFor={f.name} className="block text-sm text-amber">
-            --{f.label}
+            {f.label}
           </label>
           <input
             id={f.name}
@@ -44,7 +48,7 @@ export default function ContactForm() {
 
       <div className="space-y-1">
         <label htmlFor="message" className="block text-sm text-amber">
-          --mensagem
+          {t.message}
         </label>
         <textarea
           id="message"
@@ -65,7 +69,7 @@ export default function ContactForm() {
 
       {/* Armadilha para robôs: escondida de pessoas e leitores de tela */}
       <div aria-hidden="true" className="hidden">
-        <label htmlFor="website">Não preencha</label>
+        <label htmlFor="website">{t.honeypot}</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
@@ -75,7 +79,7 @@ export default function ContactForm() {
           disabled={pending}
           className="border border-amber px-4 py-2 text-amber transition-colors hover:bg-amber hover:text-ink disabled:cursor-wait disabled:opacity-60"
         >
-          {pending ? "enviando..." : "$ ./enviar"}
+          {pending ? t.sending : t.submit}
         </button>
         <p
           role="status"

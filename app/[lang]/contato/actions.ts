@@ -1,5 +1,8 @@
 "use server";
 
+import { getDictionary } from "@/dictionaries";
+import { defaultLocale, hasLocale } from "@/lib/i18n";
+
 export type ContactField = "name" | "email" | "message";
 
 export type ContactState = {
@@ -11,10 +14,17 @@ export type ContactState = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function sendContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
+export async function sendContact(
+  lang: string,
+  _prev: ContactState,
+  formData: FormData
+): Promise<ContactState> {
+  // O idioma vem do cliente: só aceita valores conhecidos
+  const t = getDictionary(hasLocale(lang) ? lang : defaultLocale).contact.result;
+
   // Campo invisível: só robôs preenchem
   if (formData.get("website")) {
-    return { status: "success", message: "Mensagem enviada. Obrigado!" };
+    return { status: "success", message: t.sent };
   }
 
   const values = {
@@ -25,27 +35,23 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
 
   const errors: ContactState["errors"] = {};
   if (values.name.length < 2 || values.name.length > 100) {
-    errors.name = "Informe seu nome (2 a 100 caracteres).";
+    errors.name = t.nameError;
   }
   if (!EMAIL_RE.test(values.email) || values.email.length > 200) {
-    errors.email = "Informe um e-mail válido.";
+    errors.email = t.emailError;
   }
   if (values.message.length < 10 || values.message.length > 5000) {
-    errors.message = "A mensagem precisa ter entre 10 e 5000 caracteres.";
+    errors.message = t.messageError;
   }
   if (Object.keys(errors).length) {
-    return { status: "error", message: "Corrija os campos destacados.", errors, values };
+    return { status: "error", message: t.fix, errors, values };
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL;
   if (!apiKey || !to) {
     console.error("Contato: defina RESEND_API_KEY e CONTACT_TO_EMAIL no .env.local");
-    return {
-      status: "error",
-      message: "O envio está indisponível no momento. Tente pelo LinkedIn ou GitHub.",
-      values,
-    };
+    return { status: "error", message: t.unavailable, values };
   }
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -56,18 +62,14 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
       to: [to],
       reply_to: values.email,
       subject: `Contato pelo portfólio: ${values.name}`,
-      text: `Nome: ${values.name}\nE-mail: ${values.email}\n\n${values.message}`,
+      text: `Nome: ${values.name}\nE-mail: ${values.email}\nIdioma do site: ${lang}\n\n${values.message}`,
     }),
   });
 
   if (!res.ok) {
     console.error("Contato: falha no Resend", res.status, await res.text());
-    return {
-      status: "error",
-      message: "Não consegui enviar agora. Tente de novo em instantes.",
-      values,
-    };
+    return { status: "error", message: t.failed, values };
   }
 
-  return { status: "success", message: "Mensagem enviada. Respondo assim que puder!" };
+  return { status: "success", message: t.sent };
 }

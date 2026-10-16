@@ -1,9 +1,11 @@
+import type { Localized } from "@/lib/i18n";
+
 export type ProjectCategory = "web" | "software";
 
 export interface Project {
   slug: string;
-  title: string;
-  summary: string;
+  title: Localized;
+  summary: Localized;
   category: ProjectCategory;
   stack: string[];
   year: number;
@@ -16,9 +18,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "portal-do-aluno",
-    title: "Portal do Aluno",
-    summary:
-      "Recriação de um portal acadêmico com login via JWT, dashboard interativo e banco de dados.",
+    title: { pt: "Portal do Aluno", en: "Student Portal" },
+    summary: {
+      pt: "Recriação de um portal acadêmico com login via JWT, dashboard interativo e banco de dados.",
+      en: "Recreation of an academic portal with JWT login, an interactive dashboard and a database.",
+    },
     category: "web",
     stack: ["Next.js", "NestJS", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
     year: 2026,
@@ -27,9 +31,11 @@ export const projects: Project[] = [
   },
   {
     slug: "teste-doutores-da-web",
-    title: "Teste Doutores da Web",
-    summary:
-      "Página responsiva com menu multinível, acordeão no mobile e carrossel de banners.",
+    title: { pt: "Teste Doutores da Web", en: "Doutores da Web Test" },
+    summary: {
+      pt: "Página responsiva com menu multinível, acordeão no mobile e carrossel de banners.",
+      en: "Responsive page with a multi-level menu, mobile accordion and banner carousel.",
+    },
     category: "web",
     stack: ["HTML", "CSS", "JavaScript", "Splide.js"],
     year: 2026,
@@ -37,9 +43,11 @@ export const projects: Project[] = [
   },
   {
     slug: "ecommerce-aws",
-    title: "E-commerce Serverless na AWS",
-    summary:
-      "Microsserviços de produtos, pedidos e faturas com arquitetura orientada a eventos, infraestrutura como código e observabilidade.",
+    title: { pt: "E-commerce Serverless na AWS", en: "Serverless E-commerce on AWS" },
+    summary: {
+      pt: "Microsserviços de produtos, pedidos e faturas com arquitetura orientada a eventos, infraestrutura como código e observabilidade.",
+      en: "Product, order and invoice microservices with event-driven architecture, infrastructure as code and observability.",
+    },
     category: "software",
     stack: ["TypeScript", "AWS CDK", "Lambda", "DynamoDB", "SNS/SQS", "API Gateway"],
     year: 2025,
@@ -48,9 +56,11 @@ export const projects: Project[] = [
   },
   {
     slug: "iac-infra",
-    title: "Infra como Código na AWS",
-    summary:
-      "Site estático em S3 provisionado com Terraform e GitHub Actions, com rotina em Lambda.",
+    title: { pt: "Infra como Código na AWS", en: "Infrastructure as Code on AWS" },
+    summary: {
+      pt: "Site estático em S3 provisionado com Terraform e GitHub Actions, com rotina em Lambda.",
+      en: "Static site on S3 provisioned with Terraform and GitHub Actions, plus a Lambda routine.",
+    },
     category: "software",
     stack: ["Terraform", "GitHub Actions", "AWS S3", "Lambda", "Python"],
     year: 2025,
@@ -58,8 +68,11 @@ export const projects: Project[] = [
   },
   {
     slug: "viaje-mais",
-    title: "ViajeMais",
-    summary: "Portal de viagens em React feito para o teste técnico da Triibo.",
+    title: { pt: "ViajeMais", en: "ViajeMais" },
+    summary: {
+      pt: "Portal de viagens em React feito para o teste técnico da Triibo.",
+      en: "Travel portal built in React for Triibo's technical test.",
+    },
     category: "web",
     stack: ["React", "Material UI", "React Hook Form", "Axios"],
     year: 2025,
@@ -68,9 +81,11 @@ export const projects: Project[] = [
   },
   {
     slug: "controll-dev",
-    title: "Controll Dev",
-    summary:
-      "Sistema de chamados com cadastro de clientes, abertura de tickets e dashboard autenticado.",
+    title: { pt: "Controll Dev", en: "Controll Dev" },
+    summary: {
+      pt: "Sistema de chamados com cadastro de clientes, abertura de tickets e dashboard autenticado.",
+      en: "Help desk system with customer records, ticket creation and an authenticated dashboard.",
+    },
     category: "web",
     stack: ["Next.js", "TypeScript", "Prisma", "NextAuth", "Zod", "Tailwind CSS"],
     year: 2025,
@@ -79,9 +94,11 @@ export const projects: Project[] = [
   },
   {
     slug: "furia-chat",
-    title: "FURIA Chat",
-    summary:
-      "Chat para torcedores da FURIA com chatbot, partidas ao vivo e login (teste técnico).",
+    title: { pt: "FURIA Chat", en: "FURIA Chat" },
+    summary: {
+      pt: "Chat para torcedores da FURIA com chatbot, partidas ao vivo e login (teste técnico).",
+      en: "Chat for FURIA fans with a chatbot, live matches and login (technical test).",
+    },
     category: "web",
     stack: ["Next.js", "TypeScript", "Firebase", "OpenAI", "Tailwind CSS"],
     year: 2025,
@@ -89,8 +106,11 @@ export const projects: Project[] = [
   },
   {
     slug: "oficina-do-seu-ze",
-    title: "Oficina do seu Zé",
-    summary: "Site institucional de oficina mecânica com conteúdo gerenciado por CMS headless.",
+    title: { pt: "Oficina do seu Zé", en: "Oficina do seu Zé" },
+    summary: {
+      pt: "Site institucional de oficina mecânica com conteúdo gerenciado por CMS headless.",
+      en: "Company website for a car repair shop with content managed by a headless CMS.",
+    },
     category: "web",
     stack: ["Next.js", "TypeScript", "CosmicJS", "SCSS"],
     year: 2025,
@@ -98,8 +118,11 @@ export const projects: Project[] = [
   },
   {
     slug: "daly-games",
-    title: "Daly Games",
-    summary: "Catálogo de jogos com busca por título, página de detalhes e perfil.",
+    title: { pt: "Daly Games", en: "Daly Games" },
+    summary: {
+      pt: "Catálogo de jogos com busca por título, página de detalhes e perfil.",
+      en: "Game catalog with title search, a details page and a profile.",
+    },
     category: "web",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Axios"],
     year: 2024,
@@ -107,9 +130,11 @@ export const projects: Project[] = [
   },
   {
     slug: "tarefas-plus",
-    title: "Tarefas+",
-    summary:
-      "Organizador de tarefas com login Google, tarefas públicas compartilháveis e comentários.",
+    title: { pt: "Tarefas+", en: "Tarefas+" },
+    summary: {
+      pt: "Organizador de tarefas com login Google, tarefas públicas compartilháveis e comentários.",
+      en: "Task organizer with Google login, shareable public tasks and comments.",
+    },
     category: "web",
     stack: ["Next.js", "React", "Firebase", "NextAuth"],
     year: 2024,
@@ -118,8 +143,11 @@ export const projects: Project[] = [
   },
   {
     slug: "repositorios-github",
-    title: "Repositórios GitHub",
-    summary: "App React que busca e salva repositórios pela API do GitHub.",
+    title: { pt: "Repositórios GitHub", en: "GitHub Repositories" },
+    summary: {
+      pt: "App React que busca e salva repositórios pela API do GitHub.",
+      en: "React app that searches and saves repositories using the GitHub API.",
+    },
     category: "web",
     stack: ["React", "JavaScript", "styled-components"],
     year: 2024,
@@ -127,8 +155,11 @@ export const projects: Project[] = [
   },
   {
     slug: "nlw-pocket",
-    title: "API de Metas Semanais",
-    summary: "API para cadastrar metas e registrar conclusões da semana (NLW Pocket).",
+    title: { pt: "API de Metas Semanais", en: "Weekly Goals API" },
+    summary: {
+      pt: "API para cadastrar metas e registrar conclusões da semana (NLW Pocket).",
+      en: "API to create goals and record weekly completions (NLW Pocket).",
+    },
     category: "software",
     stack: ["Node.js", "TypeScript", "Fastify", "Drizzle ORM", "PostgreSQL", "Docker"],
     year: 2024,
@@ -136,8 +167,11 @@ export const projects: Project[] = [
   },
   {
     slug: "dev-job-search",
-    title: "Dev Job Search",
-    summary: "Mural de vagas para desenvolvedores com cadastro, busca e página de detalhes.",
+    title: { pt: "Dev Job Search", en: "Dev Job Search" },
+    summary: {
+      pt: "Mural de vagas para desenvolvedores com cadastro, busca e página de detalhes.",
+      en: "Job board for developers with posting, search and a details page.",
+    },
     category: "web",
     stack: ["Node.js", "Express", "Handlebars", "Sequelize", "SQLite"],
     year: 2024,
@@ -145,8 +179,11 @@ export const projects: Project[] = [
   },
   {
     slug: "jogo-da-velha",
-    title: "Jogo da Velha",
-    summary: "Jogo da velha feito em JavaScript puro manipulando o DOM.",
+    title: { pt: "Jogo da Velha", en: "Tic-Tac-Toe" },
+    summary: {
+      pt: "Jogo da velha feito em JavaScript puro manipulando o DOM.",
+      en: "Tic-tac-toe game built in plain JavaScript using the DOM.",
+    },
     category: "web",
     stack: ["JavaScript", "HTML", "CSS"],
     year: 2024,

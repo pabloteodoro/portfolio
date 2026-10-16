@@ -3,12 +3,16 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { Project, ProjectCategory } from "@/data/projects";
+import type { Dictionary } from "@/dictionaries";
+import { localePath, type Locale } from "@/lib/i18n";
 
 type Filter = "todos" | ProjectCategory;
 
 const FILTERS: Filter[] = ["todos", "web", "software"];
 
-export default function ProjectFilter({ projects }: { projects: Project[] }) {
+type Props = { projects: Project[]; lang: Locale; t: Dictionary["projects"] };
+
+export default function ProjectFilter({ projects, lang, t }: Props) {
   const [filter, setFilter] = useState<Filter>("todos");
   const visible = filter === "todos" ? projects : projects.filter((p) => p.category === filter);
 
@@ -18,7 +22,7 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
 
   return (
     <div className="space-y-6">
-      <div role="group" aria-label="Filtrar projetos por tipo" className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      <div role="group" aria-label={t.filterLabel} className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
         {FILTERS.map((f) => (
           <button
             key={f}
@@ -31,14 +35,17 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
                 : "text-muted transition-colors hover:text-text"
             }
           >
-            --{f} <span className="text-muted">({count(f)})</span>
+            --{t.filters[f]} <span className="text-muted">({count(f)})</span>
           </button>
         ))}
       </div>
 
       <p className="text-sm text-muted" aria-live="polite">
-        <span className="text-amber">$</span> ls projetos/{filter === "todos" ? "" : ` --tipo=${filter}`}
-        <span className="ml-3">{visible.length} itens</span>
+        <span className="text-amber">$</span> {t.lsCommand}
+        {filter === "todos" ? "" : ` ${t.typeFlag}=${filter}`}
+        <span className="ml-3">
+          {visible.length} {t.items}
+        </span>
       </p>
 
       <ul className="divide-y divide-line border-y border-line">
@@ -47,17 +54,17 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
               <h2 className="font-bold">
                 <Link
-                  href={`/projetos/${p.slug}`}
+                  href={localePath(lang, `/projetos/${p.slug}`)}
                   className="text-text underline-offset-4 hover:text-cyan hover:underline"
                 >
-                  {p.title}
+                  {p.title[lang]}
                 </Link>
               </h2>
               <span className="text-xs text-muted">
                 {p.year} · {p.category}
               </span>
             </div>
-            <p className="text-sm text-muted">{p.summary}</p>
+            <p className="text-sm text-muted">{p.summary[lang]}</p>
             <p className="text-xs text-cyan">{p.stack.join(" / ")}</p>
             <p className="flex gap-4 text-sm">
               {p.repoUrl && (
@@ -67,7 +74,11 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
                   rel="noopener noreferrer"
                   className="text-cyan underline-offset-4 hover:underline"
                 >
-                  [código]<span className="sr-only"> de {p.title} no GitHub (abre em nova aba)</span>
+                  {t.code}
+                  <span className="sr-only">
+                    {" "}
+                    {p.title[lang]} {t.codeSr}
+                  </span>
                 </a>
               )}
               {p.demoUrl && (
@@ -77,7 +88,11 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
                   rel="noopener noreferrer"
                   className="text-cyan underline-offset-4 hover:underline"
                 >
-                  [ver online]<span className="sr-only"> {p.title} (abre em nova aba)</span>
+                  {t.live}
+                  <span className="sr-only">
+                    {" "}
+                    {p.title[lang]} {t.newTab}
+                  </span>
                 </a>
               )}
             </p>

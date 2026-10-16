@@ -1,6 +1,6 @@
 # Portfólio do Pablo Teodoro
 
-Site pessoal com portfólio de projetos web e software, com visual de terminal. A home é um terminal interativo (comandos `help`, `whoami`, `ls`, `cd`, `clear`).
+Site pessoal com portfólio de projetos web e software, com visual de terminal, em português e inglês. A home é um terminal interativo (comandos `help`, `whoami`, `ls`, `cd`, `clear`).
 
 ## Stack
 
@@ -12,10 +12,11 @@ Site pessoal com portfólio de projetos web e software, com visual de terminal. 
 
 ## Estrutura
 
-- `app/` rotas (cada pasta vira uma rota). Layout raiz em `app/layout.tsx`.
+- `app/[lang]/` todas as rotas, uma vez por idioma (`pt`, `en`). Layout raiz em `app/[lang]/layout.tsx`. `app/globals.css` fica fora.
+- Idiomas: `lib/i18n.ts` (`locales`, `localePath`, `stripLocale`), textos em `dictionaries/pt.ts` e `dictionaries/en.ts`. `proxy.ts` serve o português sem prefixo (`/sobre`) e o inglês com `/en`. Todo texto visível vai para os dois dicionários; links internos sempre passam por `localePath(lang, caminho)`.
 - `components/` componentes reutilizáveis (`Header.tsx`, `Terminal.tsx`, `ProjectFilter.tsx`, `ContactForm.tsx`).
-- `app/contato/actions.ts` Server Action do formulário; envia pelo Resend via `fetch` e lê `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` (definidas em `.env.local`, que não é versionado).
-- `data/projects.ts` tipo `Project` e lista de projetos.
+- `app/[lang]/contato/actions.ts` Server Action do formulário; envia pelo Resend via `fetch` e lê `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` (definidas em `.env.local`, que não é versionado).
+- `data/projects.ts` tipo `Project` e lista de projetos (`title` e `summary` com versões `pt` e `en`).
 - `public/` imagens estáticas (prints dos projetos vão em `public/projetos/`).
 
 ## Identidade visual
@@ -37,7 +38,7 @@ Navegação e títulos usam a metáfora de terminal (`~/projetos`, `$ cat arquiv
 
 ## Convenções
 
-- Textos do site e da documentação em português do Brasil.
+- Documentação e comentários em português do Brasil. Textos do site nos dois idiomas, via dicionários.
 - Componentes com `"use client"` só quando precisam de estado, eventos ou hooks de navegação.
 - Acessibilidade: foco visível, `aria-*` onde fizer sentido, respeitar `prefers-reduced-motion`.
 - Antes de commitar, rode `npm run lint` e `npm run build` e corrija os erros.

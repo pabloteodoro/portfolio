@@ -4,34 +4,40 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { projects } from "@/data/projects";
+import type { Dictionary } from "@/dictionaries";
+import { localePath, type Locale } from "@/lib/i18n";
 
 type Line = { id: number; kind: "input" | "output"; content: ReactNode };
+type T = Dictionary["terminal"];
 
 const PROMPT = "pablo@portfolio:~$";
-const PAGES = ["sobre", "projetos", "contato"];
 
-function Intro() {
+// Pastas aceitas pelo cd, em português e inglês
+const FOLDERS: Record<string, string> = {
+  sobre: "/sobre",
+  about: "/sobre",
+  projetos: "/projetos",
+  projects: "/projetos",
+  contato: "/contato",
+  contact: "/contato",
+};
+
+function Intro({ t }: { t: T }) {
   return (
     <div className="space-y-1">
       <p className="text-xl font-bold text-text sm:text-2xl">Pablo Teodoro</p>
-      <p>Desenvolvedor full stack. Crio sistemas web e software com TypeScript.</p>
+      <p>{t.intro}</p>
       <p className="text-muted">
-        Digite <span className="text-amber">help</span> para explorar, ou use o menu acima.
+        {t.hintBefore} <span className="text-amber">help</span> {t.hintAfter}
       </p>
     </div>
   );
 }
 
-function Help() {
-  const cmds = [
-    ["whoami", "quem sou eu"],
-    ["ls", "lista meus projetos"],
-    ["cd <pasta>", "abre sobre, projetos ou contato"],
-    ["clear", "limpa o terminal"],
-  ];
+function Help({ t }: { t: T }) {
   return (
     <ul>
-      {cmds.map(([cmd, desc]) => (
+      {t.help.map(([cmd, desc]) => (
         <li key={cmd} className="grid grid-cols-[12ch_1fr] gap-2">
           <span className="text-amber">{cmd}</span>
           <span className="text-muted">{desc}</span>
@@ -41,14 +47,17 @@ function Help() {
   );
 }
 
-function ProjectList() {
+function ProjectList({ lang }: { lang: Locale }) {
   return (
     <ul>
       {projects.map((p) => (
         <li key={p.slug} className="flex flex-wrap gap-x-4">
           <span className="text-muted">{p.year}</span>
           <span className="w-[9ch] text-muted">{p.category}</span>
-          <Link href={`/projetos/${p.slug}`} className="text-cyan underline-offset-4 hover:underline">
+          <Link
+            href={localePath(lang, `/projetos/${p.slug}`)}
+            className="text-cyan underline-offset-4 hover:underline"
+          >
             {p.slug}/
           </Link>
         </li>
@@ -57,7 +66,7 @@ function ProjectList() {
   );
 }
 
-export default function Terminal() {
+export default function Terminal({ lang, t }: { lang: Locale; t: T }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const nextId = useRef(2);
@@ -66,7 +75,7 @@ export default function Terminal() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [lines, setLines] = useState<Line[]>([
     { id: 0, kind: "input", content: "whoami" },
-    { id: 1, kind: "output", content: <Intro /> },
+    { id: 1, kind: "output", content: <Intro t={t} /> },
   ]);
 
   function execute(cmd: string): ReactNode | "clear" {
@@ -75,26 +84,31 @@ export default function Terminal() {
       case "":
         return null;
       case "help":
-        return <Help />;
+        return <Help t={t} />;
       case "whoami":
-        return <Intro />;
+        return <Intro t={t} />;
       case "ls":
-        return <ProjectList />;
+        return <ProjectList lang={lang} />;
       case "clear":
         return "clear";
       case "cd": {
-        const target = (args[0] ?? "").replace(/^~?\/?/, "");
-        if (!target) return "uso: cd sobre | projetos | contato";
-        if (PAGES.includes(target)) {
-          router.push(`/${target}`);
-          return `abrindo ~/${target}...`;
+        const target = (args[0] ?? "").replace(/^~?\/?/, "").replace(/\/$/, "");
+        if (!target) return t.cdUsage;
+        const route = FOLDERS[target];
+        if (route) {
+          router.push(localePath(lang, route));
+          return `${t.cdOpening} ~/${target}...`;
         }
-        return <span className="text-red">cd: pasta não encontrada: {target}</span>;
+        return (
+          <span className="text-red">
+            {t.cdNotFound} {target}
+          </span>
+        );
       }
       default:
         return (
           <span className="text-red">
-            comando não encontrado: {name}. Digite help para ver os comandos.
+            {t.notFound} {name}. {t.notFoundHint}
           </span>
         );
     }
@@ -134,7 +148,7 @@ export default function Terminal() {
 
   return (
     <section
-      aria-label="Terminal interativo"
+      aria-label={t.ariaLabel}
       onClick={() => inputRef.current?.focus()}
       className="overflow-hidden rounded-md border border-line bg-panel shadow-[0_0_40px_-12px_rgba(255,176,0,0.25)]"
     >
@@ -153,7 +167,7 @@ export default function Terminal() {
 
         <label className="flex items-center gap-2">
           <span className="shrink-0 text-amber">{PROMPT}</span>
-          <span className="sr-only">Digite um comando</span>
+          <span className="sr-only">{t.inputLabel}</span>
           <input
             ref={inputRef}
             value={value}
