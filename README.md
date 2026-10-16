@@ -36,8 +36,10 @@ portfolio/
 │   ├── globals.css      # Tema: cores, fonte e estilos globais
 │   ├── layout.tsx       # Layout raiz: fonte, metadados e menu
 │   ├── page.tsx         # Página inicial (terminal + destaques)
-│   └── projetos/
-│       └── page.tsx     # Listagem de projetos com filtro
+│   ├── projetos/
+│   │   └── page.tsx     # Listagem de projetos com filtro
+│   └── sobre/
+│       └── page.tsx     # Apresentação, formação e habilidades
 ├── components/
 │   ├── Header.tsx       # Menu de navegação em formato de caminho
 │   ├── ProjectFilter.tsx # Filtro web/software e lista de projetos
@@ -134,13 +136,17 @@ Mostra todos os projetos de `data/projects.ts`, com filtro por tipo. A página �
 - Cada projeto mostra ano, tipo, resumo, stack e links para o código e, quando existir, a versão online.
 - A linha `$ ls projetos/ --tipo=web` muda junto com o filtro e é anunciada por leitores de tela (`aria-live`).
 
+### 8. Página Sobre (`app/sobre/page.tsx`)
+
+Server Component estático dividido em "arquivos" de terminal: `cat sobre-mim.txt` (apresentação), `cat formacao.txt` (faculdade, certificação AWS e idiomas) e `ls habilidades/` (tecnologias por área). Cada seção usa `aria-labelledby` apontando para o próprio título. Para atualizar as habilidades, edite o array `skills` no topo do arquivo.
+
 ---
 
 ## Próximos passos
 
 - [ ] Página de detalhe do projeto (`/projetos/[slug]`)
 - [x] Página de listagem com filtro web/software (`/projetos`)
-- [ ] Página Sobre (`/sobre`)
+- [x] Página Sobre (`/sobre`)
 - [ ] Página de contato com formulário (`/contato`)
 - [ ] SEO e imagem de compartilhamento (Open Graph)
 - [ ] Deploy na Vercel
