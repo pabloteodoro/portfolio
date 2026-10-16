@@ -105,6 +105,8 @@ Mostra o terminal e, abaixo dele, a lista de projetos em destaque (os que têm `
 
 Todos os projetos ficam em um único array tipado, sem banco de dados. O terminal (`ls`) e a página inicial leem daqui.
 
+A lista reúne os repositórios públicos de [github.com/pabloteodoro](https://github.com/pabloteodoro), do mais recente ao mais antigo. Ficaram de fora repositórios privados, forks e exercícios pequenos. Os resumos foram escritos a partir do README e do código de cada repositório.
+
 Para adicionar um projeto, inclua um objeto no array:
 
 ```ts
