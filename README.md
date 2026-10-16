@@ -19,7 +19,7 @@ npm run dev
 
 Abra `http://localhost:3000`.
 
-Para o formulário de contato enviar e-mails, copie `.env.example` para `.env.local` e preencha as variáveis (veja a parte 9). Sem elas o site funciona normalmente, mas o formulário avisa que o envio está indisponível.
+Para o formulário de contato enviar e-mails, crie um arquivo `.env.local` na raiz com as variáveis da tabela da parte 9. Sem elas o site funciona normalmente, mas o formulário avisa que o envio está indisponível.
 
 | Comando         | O que faz                        |
 | --------------- | -------------------------------- |

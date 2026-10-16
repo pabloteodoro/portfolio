@@ -14,7 +14,7 @@ Site pessoal com portfólio de projetos web e software, com visual de terminal. 
 
 - `app/` rotas (cada pasta vira uma rota). Layout raiz em `app/layout.tsx`.
 - `components/` componentes reutilizáveis (`Header.tsx`, `Terminal.tsx`, `ProjectFilter.tsx`, `ContactForm.tsx`).
-- `app/contato/actions.ts` Server Action do formulário; envia pelo Resend via `fetch` e lê `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` (modelo em `.env.example`).
+- `app/contato/actions.ts` Server Action do formulário; envia pelo Resend via `fetch` e lê `RESEND_API_KEY`, `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL` (definidas em `.env.local`, que não é versionado).
 - `data/projects.ts` tipo `Project` e lista de projetos.
 - `public/` imagens estáticas (prints dos projetos vão em `public/projetos/`).
 
