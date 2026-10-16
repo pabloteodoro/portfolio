@@ -85,7 +85,7 @@ Envolve todas as páginas. Responsável por:
 
 ### 3. Menu (`components/Header.tsx`)
 
-Os links aparecem como caminhos de pasta (`~/sobre`, `~/projetos`, `~/contato`). É um Client Component porque usa `usePathname()` para saber em qual página o visitante está e destacar o link ativo em ciano. O link ativo também recebe `aria-current="page"` para leitores de tela.
+Os links aparecem como caminhos de pasta (`~/sobre`, `~/projetos`, `~/contato`). É um Client Component porque usa `usePathname()` para saber em qual página o visitante está e destacar o link ativo em ciano. O link ativo também recebe `aria-current="page"` para leitores de tela. O nome `pablo@portfolio`, no início do menu, também é um link que volta para a página inicial.
 
 ### 4. Terminal interativo (`components/Terminal.tsx`)
 

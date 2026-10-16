@@ -16,7 +16,10 @@ export default function Header() {
   return (
     <header className="border-b border-line">
       <nav className="mx-auto flex max-w-4xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-4 text-sm">
-        <span className="text-amber">pablo@portfolio</span>
+        <Link href="/" className="text-amber transition-opacity hover:opacity-80">
+          pablo@portfolio
+          <span className="sr-only"> (página inicial)</span>
+        </Link>
         {links.map((link) => {
           const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
           return (
