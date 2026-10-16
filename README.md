@@ -35,9 +35,12 @@ portfolio/
 ├── app/
 │   ├── globals.css      # Tema: cores, fonte e estilos globais
 │   ├── layout.tsx       # Layout raiz: fonte, metadados e menu
-│   └── page.tsx         # Página inicial (terminal + destaques)
+│   ├── page.tsx         # Página inicial (terminal + destaques)
+│   └── projetos/
+│       └── page.tsx     # Listagem de projetos com filtro
 ├── components/
 │   ├── Header.tsx       # Menu de navegação em formato de caminho
+│   ├── ProjectFilter.tsx # Filtro web/software e lista de projetos
 │   └── Terminal.tsx     # Terminal interativo da home
 └── data/
     └── projects.ts      # Lista de projetos e seus tipos
@@ -123,12 +126,20 @@ Para adicionar um projeto, inclua um objeto no array:
 }
 ```
 
+### 7. Listagem de projetos (`app/projetos/page.tsx`)
+
+Mostra todos os projetos de `data/projects.ts`, com filtro por tipo. A página é um Server Component estático; só o filtro (`components/ProjectFilter.tsx`) é Client Component, porque guarda o tipo escolhido em estado.
+
+- Os botões `--todos`, `--web` e `--software` mostram quantos projetos há em cada tipo e usam `aria-pressed` para indicar o filtro ativo.
+- Cada projeto mostra ano, tipo, resumo, stack e links para o código e, quando existir, a versão online.
+- A linha `$ ls projetos/ --tipo=web` muda junto com o filtro e é anunciada por leitores de tela (`aria-live`).
+
 ---
 
 ## Próximos passos
 
 - [ ] Página de detalhe do projeto (`/projetos/[slug]`)
-- [ ] Página de listagem com filtro web/software (`/projetos`)
+- [x] Página de listagem com filtro web/software (`/projetos`)
 - [ ] Página Sobre (`/sobre`)
 - [ ] Página de contato com formulário (`/contato`)
 - [ ] SEO e imagem de compartilhamento (Open Graph)
