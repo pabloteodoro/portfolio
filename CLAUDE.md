@@ -52,8 +52,8 @@ Navegação e títulos usam a metáfora de terminal (`~/projetos`, `$ cat arquiv
 
 ## Próximos passos
 
-Já feitos: `/projetos` (com filtro), `/sobre` e `/contato`.
+Já feitos: `/projetos` (com filtro), `/projetos/[slug]`, `/sobre` e `/contato`.
 
-1. Página de detalhe do projeto: `app/projetos/[slug]/page.tsx` (estudo de caso: problema, solução, stack, prints, links). Os links da home e do `ls` do terminal já apontam para ela.
+1. Enriquecer as páginas de projeto com estudo de caso (problema, solução, prints em `public/projetos/`)
 2. SEO e Open Graph
 3. Deploy na Vercel (configurar as variáveis do Resend)

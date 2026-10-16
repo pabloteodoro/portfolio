@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { Project, ProjectCategory } from "@/data/projects";
 
@@ -44,7 +45,14 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
         {visible.map((p) => (
           <li key={p.slug} className="space-y-2 py-5 sm:px-3">
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <h2 className="font-bold text-text">{p.title}</h2>
+              <h2 className="font-bold">
+                <Link
+                  href={`/projetos/${p.slug}`}
+                  className="text-text underline-offset-4 hover:text-cyan hover:underline"
+                >
+                  {p.title}
+                </Link>
+              </h2>
               <span className="text-xs text-muted">
                 {p.year} · {p.category}
               </span>

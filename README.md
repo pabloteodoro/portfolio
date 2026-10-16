@@ -42,6 +42,8 @@ portfolio/
 │   ├── layout.tsx       # Layout raiz: fonte, metadados e menu
 │   ├── page.tsx         # Página inicial (terminal + destaques)
 │   ├── projetos/
+│   │   ├── [slug]/
+│   │   │   └── page.tsx # Página de cada projeto
 │   │   └── page.tsx     # Listagem de projetos com filtro
 │   └── sobre/
 │       └── page.tsx     # Apresentação, formação e habilidades
@@ -139,7 +141,7 @@ Para adicionar um projeto, inclua um objeto no array:
 Mostra todos os projetos de `data/projects.ts`, com filtro por tipo. A página é um Server Component estático; só o filtro (`components/ProjectFilter.tsx`) é Client Component, porque guarda o tipo escolhido em estado.
 
 - Os botões `--todos`, `--web` e `--software` mostram quantos projetos há em cada tipo e usam `aria-pressed` para indicar o filtro ativo.
-- Cada projeto mostra ano, tipo, resumo, stack e links para o código e, quando existir, a versão online.
+- Cada projeto mostra ano, tipo, resumo, stack e links para o código e, quando existir, a versão online. O título leva para a página do projeto.
 - A linha `$ ls projetos/ --tipo=web` muda junto com o filtro e é anunciada por leitores de tela (`aria-live`).
 
 ### 8. Página Sobre (`app/sobre/page.tsx`)
@@ -161,11 +163,20 @@ Variáveis de ambiente (em `.env.local` localmente e nas configurações do proj
 | `CONTACT_TO_EMAIL`   | sim         | E-mail que recebe as mensagens                                |
 | `CONTACT_FROM_EMAIL` | não         | Remetente; precisa ser de um domínio verificado no Resend. Padrão: `onboarding@resend.dev` (só entrega para o e-mail da sua conta Resend) |
 
+### 10. Página de cada projeto (`app/projetos/[slug]/page.tsx`)
+
+Cada projeto de `data/projects.ts` ganha uma página em `/projetos/<slug>`, que é o destino dos links do `ls` no terminal, dos destaques da home e da listagem.
+
+- `generateStaticParams()` gera uma página estática por projeto no build. Para criar a página de um projeto novo, basta adicioná-lo ao array.
+- `generateMetadata()` usa o título e o resumo do projeto no `<title>` e na descrição.
+- A página mostra resumo, ano, tipo e stack, com botões para o repositório no GitHub e para a versão online (quando existir), além do comando `git clone`.
+- Um slug que não existe chama `notFound()` e mostra a página 404 do Next.
+
 ---
 
 ## Próximos passos
 
-- [ ] Página de detalhe do projeto (`/projetos/[slug]`)
+- [x] Página de detalhe do projeto (`/projetos/[slug]`)
 - [x] Página de listagem com filtro web/software (`/projetos`)
 - [x] Página Sobre (`/sobre`)
 - [x] Página de contato com formulário (`/contato`)
